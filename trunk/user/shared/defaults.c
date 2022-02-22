@@ -124,6 +124,8 @@ struct nvram_pair router_defaults[] = {
 	{ "wan_pppoe_service", "" },		/* PPPoE service name */
 	{ "wan_pppoe_ac", "" },			/* PPPoE access concentrator name */
 	{ "wan_pppoe_man", "1" },		/* PPPoE & MAN */
+	{ "pppoemwan_staticnum_x", "0" },
+	{ "pppoemwan_443", "0" },
 	{ "wan_pppoe_mtu", "1492" },		/* Negotiate MTU to the smaller of this value or the peer MRU */
 	{ "wan_pppoe_mru", "1492" },		/* Negotiate MRU to this value */
 	{ "wan_pptp_mtu", "1400" },		/* Negotiate MTU to the smaller of this value or the peer MRU */
@@ -417,7 +419,7 @@ struct nvram_pair router_defaults[] = {
 	{ "hdd_spindt", "0" },
 	{ "hdd_apmoff", "0" },
 
-	{ "ip6_service", "" },
+	{ "ip6_service", "dhcp6" },			/* IPV6 */
 	{ "ip6_wan_if", "0" },
 
 	{ "ip6_6in4_remote", "" },
@@ -578,7 +580,7 @@ struct nvram_pair router_defaults[] = {
 	{ "socks5_s_username", "" },
 	{ "socks5_s_password", "" },
 	{ "ss_turn", "0" },
-	{ "ss_watchcat", "0" },
+	{ "ss_watchcat", "1" },
 	{ "ss_turn_s", "600" },
 	{ "ss_turn_ss", "5" },
 	{ "lan_con", "0" },
@@ -655,6 +657,7 @@ struct nvram_pair router_defaults[] = {
 	{ "d_keyword_y", "" },
 	{ "d_update_link", "" },
 	{ "ss_keyword", "过期时间/剩余流量" },
+#endif
 	
 	/*Adbyby PlUS+*/
 	{ "adbyby_enable", "0" },
@@ -691,10 +694,13 @@ struct nvram_pair router_defaults[] = {
 	{ "aliddns_domain2", "" },
 	{ "aliddns_domain6", "" },
 	
+#if defined(APP_ADGUARDHOME)	
 	/* AdguargHome */
 	{ "adg_enable", "0" },
 	{ "adg_redirect", "0" },
+#endif
 	
+#if defined(APP_CADDY)	
 	/*caddy*/
 	{ "caddy_enable", "0" },
 	{ "caddy_file", "0" },
@@ -706,11 +712,15 @@ struct nvram_pair router_defaults[] = {
 	{ "caddy_wip6", "0" },
 	{ "caddy_wname", "admin" },
 	{ "caddy_wpassword", "admin" },
+#endif
 	
+#if defined(APP_FRP)
 	/*frp*/
 	{ "frpc_enable", "0" },
 	{ "frps_enable", "0" },
+#endif
 	
+#if defined(APP_SMARTDNS)	
 	/*SmartDns*/
 	{ "sdns_enable", "0" },
 	{ "snds_name", "smartdns" },
@@ -743,7 +753,8 @@ struct nvram_pair router_defaults[] = {
 	{ "sdnse_cache", "0" },
 	{ "ss_white", "0" },
 	{ "ss_black", "0" },
-
+#endif
+	
 	/*UnblockNeteaseMusic*/
 	{ "wyy_enable", "0" },
 	{ "wyy_apptype", "cloud" },
@@ -764,7 +775,8 @@ struct nvram_pair router_defaults[] = {
 	/*DDNSTO*/
 	{ "ddnsto_enable", "0" },
 	{ "ddnsto_id", "" },
-	
+
+#if defined(APP_ALDRIVER)
 	/*阿里云盘*/
 	{ "aliyundrive_enable", "0" },
 	{ "ald_refresh_token", "" },
@@ -779,15 +791,10 @@ struct nvram_pair router_defaults[] = {
 	{ "ald_domain_id", "0" },
 	{ "ald_no_trash", "0" },
 	{ "ald_read_only", "0" },
-
-	{ "ss_watchcat", "1" },
-	{ "ss_update_chnroute", "0" },
-	{ "ss_update_gfwlist", "0" },
-	
+#endif	
 	/*autoreboot*/
 	{ "reboot_schedule_enable", "0" },
 	{ "reboot_schedule", "00000000000" },
-#endif
 
 #if defined(APP_WIREGUARD)
 	/*WIREGUARD*/
@@ -861,7 +868,7 @@ struct nvram_pair router_defaults[] = {
 	{ "dhcp_end", DEF_LAN_DHCP_END },	/* Last assignable DHCP address */
 	{ "dhcp_enable_x", "1" },
 	{ "dhcp_lease", "86400" },
-	{ "dhcp_gateway_x", "" },
+	{ "dhcp_gateway_x", DEF_LAN_ADDR },
 	{ "dhcp_dns1_x", "" },
 	{ "dhcp_dns2_x", "" },
 	{ "dhcp_dns3_x", "" },
@@ -1207,6 +1214,11 @@ struct nvram_pair tables_defaults[] = {
 	{ "dhcp_staticmac_x", "" },
 	{ "dhcp_staticip_x", "" },
 	{ "dhcp_staticname_x", "" },
+
+	{"pppoemwan_mac_x", "" },
+	{"pppoemwan_ip_x", "" },
+	{"pppoemwan_name_x", "" },
+	{"pppoemwan_interface_x", "" },
 
 	{"adbybyip_mac_x", "" },
 	{"adbybyip_ip_x", "" },

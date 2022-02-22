@@ -60,7 +60,15 @@
 			{"url_keyword_x", "36", NULL, EVM_RESTART_FIREWALL},
 			{0,0,0,0}
 		};
-
+		
+	struct variable variables_PPPConnection_pppoemwanIPList[] = {
+			{"pppoemwan_mac_x", "14", NULL, EVM_RESTART_FIREWALL},
+			{"pppoemwan_ip_x", "17", NULL, EVM_RESTART_FIREWALL},
+			{"pppoemwan_name_x", "24", NULL, EVM_RESTART_FIREWALL},
+			{"pppoemwan_interface_x", "24", NULL, EVM_RESTART_FIREWALL},
+			{0,0,0,0}
+		};
+		
 	struct variable variables_AdbybyConf_AdIPList[] = {
 			{"adbybyip_mac_x", "14", NULL, FALSE},
 			{"adbybyip_ip_x", "17", NULL, FALSE},
@@ -459,10 +467,13 @@
 			{0,0,0,0}
 		};
 
+	
 	struct variable variables_PPPConnection[] = {
 			{"pppoemwan_enable", "", NULL, EVM_RESTART_WAN},
 			{"pppoesync_enable", "", NULL, EVM_RESTART_WAN},
 			{"pppoe_num", "", NULL, EVM_RESTART_WAN},
+			{"pppoemwan_rules_x", "", NULL, EVM_RESTART_FIREWALL},
+			{"pppoemwan_443", "", NULL, EVM_RESTART_FIREWALL},
 			{"wan_pppoe_username", "", NULL, EVM_RESTART_WAN},
 			{"wan_pppoe_passwd", "", NULL, EVM_RESTART_WAN},
 			{"wan_pppoe_idletime", "", NULL, EVM_RESTART_WAN},
@@ -485,6 +496,7 @@
 			{"wan_ppp_lcp", "", NULL, EVM_RESTART_WAN},
 			{"wan_ppp_alcp", "", NULL, EVM_RESTART_WAN},
 			{"wan_ppp_pppd", "", NULL, EVM_RESTART_WAN},
+			{"pppoemwanIPList", "Group", ARGV((char*)variables_PPPConnection_pppoemwanIPList, "8", "55", "pppoemwan_staticnum_x"), EVM_RESTART_FIREWALL},
 			{0,0,0,0}
 		};
 
@@ -1011,6 +1023,15 @@
 		};
 #endif
 
+#if defined(APP_FRP)
+	struct variable variables_FrpConf[] = {
+			{"frpc_enable", "", NULL, EVM_RESTART_FRP},
+			{"frps_enable", "", NULL, EVM_RESTART_FRP},
+			{"scripts.frp_script.sh", "File", NULL, EVM_RESTART_FRP},
+			{0,0,0,0}
+	};
+#endif
+
 #if defined(APP_SHADOWSOCKS)
 	struct variable variables_ShadowsocksConf[] = {
 			{"ss_enable","",NULL, EVM_RESTART_SHADOWSOCKS},
@@ -1334,6 +1355,9 @@
 #if defined(APP_SHADOWSOCKS)
 		{"ShadowsocksConf",		variables_ShadowsocksConf},
 #endif
+#if defined(APP_FRP)
+		{"FrpConf",		variables_FrpConf},
+#endif
 		{"DwebConf",			variables_DwebConf},
 		{"LANGUAGE",			variables_Language},
 		{0,0}
@@ -1448,6 +1472,9 @@
 #endif
 #if defined(APP_SMBD) || defined(APP_NMBD)
 		{EVM_RESTART_NMBD,		EVT_RESTART_NMBD,		RCN_RESTART_NMBD,	0},
+#endif
+#if defined(APP_FRP)
+		{EVM_RESTART_FRP,		EVT_RESTART_FRP,		RCN_RESTART_FRP, 	0},
 #endif
 		{EVM_RESTART_FIREWALL,		EVT_RESTART_FIREWALL,		RCN_RESTART_FIREWALL,	0},
 		{0,0,0,0}
